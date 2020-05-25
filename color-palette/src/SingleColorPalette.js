@@ -36,7 +36,7 @@ class SingleColorPalette extends Component {
         name={color.id}
         level={color.name.split(" ")[1]}
         background={color[format]}
-        showMoreLink={false}
+        showFullPalette={false}
       />
     ));
     return (
