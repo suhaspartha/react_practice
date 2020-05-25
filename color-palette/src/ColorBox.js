@@ -61,7 +61,7 @@ const styles = {
     textTransform: "uppercase",
     border: "none",
     opacity: "0",
-    textDecoration: "none",
+    textDecoration: "none"
   },
   boxContent: {
     position: "absolute",
