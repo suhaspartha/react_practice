@@ -9,9 +9,11 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import { ChromePicker } from "react-color";
 
-const drawerWidth = 240;
+const drawerWidth = 400;
 
 const styles = (theme) => ({
   root: {
@@ -71,9 +73,17 @@ const styles = (theme) => ({
 });
 
 class NewPaletteForm extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      currentColor: "black",
+      colors: [],
+    };
+    this.changeCurrentColor = this.changeCurrentColor.bind(this);
+    this.addColor = this.addColor.bind(this);
+  }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -81,6 +91,12 @@ class NewPaletteForm extends Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+  changeCurrentColor(newColor) {
+    this.setState({ currentColor: newColor.hex });
+  }
+  addColor() {
+    this.setState({ colors: [...this.state.colors, this.state.currentColor] });
+  }
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -123,6 +139,27 @@ class NewPaletteForm extends Component {
             </IconButton>
           </div>
           <Divider />
+          <Typography variant="h4">Design your palette</Typography>
+          <div>
+            <Button variant="contained" color="secondary">
+              Clear palette
+            </Button>
+            <Button variant="contained" color="primary">
+              Random color
+            </Button>
+          </div>
+          <ChromePicker
+            color={this.state.currentColor}
+            onChangeComplete={this.changeCurrentColor}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: this.state.currentColor }}
+            onClick={this.addColor}
+          >
+            Add color
+          </Button>
         </Drawer>
         <main
           className={clsx(classes.content, {
@@ -130,6 +167,11 @@ class NewPaletteForm extends Component {
           })}
         >
           <div className={classes.drawerHeader} />
+          <ul>
+            {this.state.colors.map((color) => (
+              <li style={{backgroundColor:color}}>{color}</li>
+            ))}
+          </ul>
         </main>
       </div>
     );
