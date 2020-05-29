@@ -19,7 +19,7 @@ class App extends Component {
     });
   }
   saveColors(newPalette){
-    this.setState({colors:[...this.state.palettes, newPalette]})
+    this.setState({palettes:[...this.state.palettes, newPalette]})
   }
   render() {
     return (
