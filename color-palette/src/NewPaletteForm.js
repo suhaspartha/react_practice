@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import PaletteFormNav from "./PaletteFormNav";
+import ColorpickerForm from "./ColorpickerForm";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { ValidatorForm } from "react-material-ui-form-validator";
 import Button from "@material-ui/core/Button";
 import DragableColorList from "./DragableColorList";
 import { arrayMove } from "react-sortable-hoc";
 import { withStyles } from "@material-ui/core/styles";
-import { ChromePicker } from "react-color";
 
 const drawerWidth = 400;
 
@@ -81,27 +81,15 @@ class NewPaletteForm extends Component {
     super(props);
     this.state = {
       open: false,
-      currentColor: "black",
       colors: props.palettes[0].colors,
-      newColorName: "",
     };
-    this.changeCurrentColor = this.changeCurrentColor.bind(this);
     this.addColor = this.addColor.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteColor = this.deleteColor.bind(this);
     this.clearColors = this.clearColors.bind(this);
     this.addRandomColor = this.addRandomColor.bind(this);
   }
   componentDidMount() {
-    ValidatorForm.addValidationRule("isColornameUnique", (value) =>
-      this.state.colors.every(
-        ({ name }) => name.toLowerCase() !== value.toLowerCase()
-      )
-    );
-    ValidatorForm.addValidationRule("isColorUnique", (value) =>
-      this.state.colors.every(({ color }) => color !== this.state.currentColor)
-    );
     ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
       this.props.palettes.every(
         ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
@@ -115,22 +103,13 @@ class NewPaletteForm extends Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
-  changeCurrentColor(newColor) {
-    this.setState({ currentColor: newColor.hex });
-  }
-  addColor() {
-    const newColor = {
-      color: this.state.currentColor,
-      name: this.state.newColorName,
-    };
+  addColor(newColor) {
     this.setState({
       colors: [...this.state.colors, newColor],
       newColorName: "",
     });
   }
-  handleChange(evt) {
-    this.setState({ [evt.target.name]: evt.target.value });
-  }
+
   handleSubmit(newPaletteName) {
     const newColors = {
       paletteName: newPaletteName,
@@ -205,36 +184,11 @@ class NewPaletteForm extends Component {
               Random color
             </Button>
           </div>
-          <ChromePicker
-            color={this.state.currentColor}
-            onChangeComplete={this.changeCurrentColor}
+          <ColorpickerForm
+            isPaletteFull={isPaletteFull}
+            colors={colors}
+            addColor={this.addColor}
           />
-          <ValidatorForm onSubmit={this.addColor}>
-            <TextValidator
-              value={this.state.newColorName}
-              name="newColorName"
-              onChange={this.handleChange}
-              validators={["required", "isColornameUnique", "isColorUnique"]}
-              errorMessages={[
-                "Color name is required",
-                "Color name already chosen",
-                "Color already exists!",
-              ]}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                backgroundColor: isPaletteFull
-                  ? "lightgrey"
-                  : this.state.currentColor,
-              }}
-              type="submit"
-              disabled={isPaletteFull}
-            >
-              {isPaletteFull ? "Palette full" : "Add color"}
-            </Button>
-          </ValidatorForm>
         </Drawer>
         <main
           className={clsx(classes.content, {
