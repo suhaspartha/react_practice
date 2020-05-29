@@ -11,7 +11,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Button from "@material-ui/core/Button";
-import DragableColorBox from "./DragableColorBox";
+import DragableColorList from "./DragableColorList";
+import {arrayMove} from "react-sortable-hoc";
 import { withStyles } from "@material-ui/core/styles";
 import { ChromePicker } from "react-color";
 
@@ -89,6 +90,7 @@ class NewPaletteForm extends Component {
     this.addColor = this.addColor.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteColor = this.deleteColor.bind(this);
   }
   componentDidMount() {
     ValidatorForm.addValidationRule("isColornameUnique", (value) =>
@@ -143,6 +145,11 @@ class NewPaletteForm extends Component {
       colors: this.state.colors.filter((color) => color.name !== colorToDelete),
     });
   }
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState(({ colors }) => ({
+      colors: arrayMove(colors, oldIndex, newIndex),
+    }));
+  };
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -239,14 +246,12 @@ class NewPaletteForm extends Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          {this.state.colors.map((color) => (
-            <DragableColorBox
-              key={color.name}
-              color={color.color}
-              name={color.name}
-              handleClick={() => this.deleteColor(color.name)}
-            />
-          ))}
+          <DragableColorList
+            colors={this.state.colors}
+            deleteColor={this.deleteColor}
+            axis="xy"
+            onSortEnd = {this.onSortEnd}
+          />
         </main>
       </div>
     );
