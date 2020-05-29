@@ -12,6 +12,7 @@ class App extends Component {
     super(props);
     this.state = {palettes: seedColors}
     this.saveColors = this.saveColors.bind(this);
+    this.findPalette = this.findPalette.bind(this);
   }
   findPalette(id) {
     return this.state.palettes.find(function (palette) {
@@ -27,7 +28,7 @@ class App extends Component {
         <Route
           exact
           path="/palette/new"
-          render={(routeProps) => <NewPaletteForm saveColors = {this.saveColors} {...routeProps}/>}
+          render={(routeProps) => <NewPaletteForm saveColors = {this.saveColors} palettes={this.state.palettes} {...routeProps}/>}
         />
         <Route
           exact
