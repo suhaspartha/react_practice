@@ -15,13 +15,13 @@ class MiniPalette extends PureComponent {
     this.props.openDialog(this.props.id);
     //this.props.handleDelete(this.props.id);
   }
-  handleClick(){
+  handleClick() {
     this.props.gotoPalette(this.props.id);
   }
   render() {
-    const { classes, paletteName, emoji, colors, handleClick, id } = this.props;
+    const { classes, paletteName, emoji, colors } = this.props;
     // to prove that re-rendering doesn't happen now
-    console.log("RENDERING:",paletteName);
+    console.log("RENDERING:", paletteName);
     const miniColorBoxes = colors.map((color) => (
       <div
         className={classes.miniColors}
