@@ -104,6 +104,18 @@ class App extends Component {
                     </Page>
                   )}
                 />
+                {/*activates when rendom color is entered */}
+                <Route
+                  render={(routeProps) => (
+                    <Page>
+                      <PaletteList
+                        palettes={this.state.palettes}
+                        deletePalette={this.deletePalette}
+                        {...routeProps}
+                      />
+                    </Page>
+                  )}
+                />
               </Switch>
             </CSSTransition>
           </TransitionGroup>
