@@ -26,6 +26,7 @@ class PaletteList extends Component {
     this.openDialog = this.openDialog.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
     this.deletePalette = this.deletePalette.bind(this);
+    this.gotoPalette = this.gotoPalette.bind(this);
   }
   openDialog(id) {
     console.log(id);
@@ -57,7 +58,7 @@ class PaletteList extends Component {
               <CSSTransition key={palette.id} classNames="fade" timeout={500}>
                 <MiniPalette
                   {...palette}
-                  handleClick={() => this.gotoPalette(palette.id)}
+                  gotoPalette={this.gotoPalette}
                   //handleDelete={this.deletePalette}
                   openDialog={this.openDialog}
                   key={palette.id}

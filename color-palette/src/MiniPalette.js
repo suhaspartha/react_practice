@@ -1,20 +1,27 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "./styles/MiniPaletteStyles";
 
-class MiniPalette extends Component {
+// use pure component to avoid rerendering even if only one elem in state changes
+class MiniPalette extends PureComponent {
   constructor(props) {
     super(props);
     this.deletePalette = this.deletePalette.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   deletePalette(evt) {
     evt.stopPropagation();
     this.props.openDialog(this.props.id);
     //this.props.handleDelete(this.props.id);
   }
+  handleClick(){
+    this.props.gotoPalette(this.props.id);
+  }
   render() {
-    const { classes, paletteName, emoji, colors, handleClick } = this.props;
+    const { classes, paletteName, emoji, colors, handleClick, id } = this.props;
+    // to prove that re-rendering doesn't happen now
+    console.log("RENDERING:",paletteName);
     const miniColorBoxes = colors.map((color) => (
       <div
         className={classes.miniColors}
@@ -23,7 +30,7 @@ class MiniPalette extends Component {
       />
     ));
     return (
-      <div className={classes.root} onClick={handleClick}>
+      <div className={classes.root} onClick={this.handleClick}>
         <DeleteIcon
           className={classes.deleteIcon}
           onClick={this.deletePalette}
