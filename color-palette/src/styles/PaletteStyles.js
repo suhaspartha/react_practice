@@ -1,8 +1,10 @@
+import sizes from "./sizes";
 export default {
   Palette: {
     height: "100vh",
     display: "flex",
     flexDirection: "column",
+    overflow:"hidden"
   },
   colors: {
     height: "90vh",
@@ -36,6 +38,18 @@ export default {
       border: "none",
       opacity: "1",
       textDecoration: "none",
+    },
+    [sizes.down("lg")]: {
+      width: "25%",
+      height: "33.33333%",
+    },
+    [sizes.down("md")]: {
+      width: "50%",
+      height: "20%",
+    },
+    [sizes.down("xs")]: {
+      width: "100%",
+      height: "10%",
     },
   },
 };
