@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { ValidatorForm } from "react-material-ui-form-validator";
 import Button from "@material-ui/core/Button";
 import DragableColorList from "./DragableColorList";
 import { arrayMove } from "react-sortable-hoc";
@@ -87,13 +86,6 @@ class NewPaletteForm extends Component {
     this.deleteColor = this.deleteColor.bind(this);
     this.clearColors = this.clearColors.bind(this);
     this.addRandomColor = this.addRandomColor.bind(this);
-  }
-  componentDidMount() {
-    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
-      this.props.palettes.every(
-        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-      )
-    );
   }
   handleDrawerOpen = () => {
     this.setState({ open: true });
