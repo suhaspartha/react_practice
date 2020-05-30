@@ -27,8 +27,8 @@ const styles = (theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    display:"flex",
-    alignItems:"center"
+    display: "flex",
+    alignItems: "center",
   },
   drawerHeader: {
     display: "flex",
@@ -56,19 +56,19 @@ const styles = (theme) => ({
     marginLeft: 0,
   },
   container: {
-      width:"90%",
-      height:"100%",
-      display:"flex",
-      flexDirection:"column",
-      justifyContent:"center",
-      alignItems:"center"
+    width: "90%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttons: {
-      width:"100%"
+    width: "100%",
   },
-  button:{
-      width:"50%"
-  }
+  button: {
+    width: "50%",
+  },
 });
 
 class NewPaletteForm extends Component {
@@ -101,10 +101,13 @@ class NewPaletteForm extends Component {
     });
   }
 
-  handleSubmit(newPaletteName) {
+  handleSubmit(newPalette) {
+    const name = newPalette.paletteName;
+    const emoji = newPalette.emoji;
     const newColors = {
-      paletteName: newPaletteName,
-      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
+      paletteName: name,
+      emoji: emoji,
+      id: name.toLowerCase().replace(/ /g, "-"),
       colors: this.state.colors,
     };
     this.props.saveColors(newColors);
@@ -157,7 +160,9 @@ class NewPaletteForm extends Component {
           </div>
           <Divider />
           <div className={classes.container}>
-            <Typography variant="h4" gutterBottom>Design your palette</Typography>
+            <Typography variant="h4" gutterBottom>
+              Design your palette
+            </Typography>
             <div className={classes.buttons}>
               <Button
                 variant="contained"
